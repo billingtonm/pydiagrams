@@ -58,7 +58,7 @@ class Helper(helper.helper):
 
     # For plantuml, the theme to include
     #theme = 'w:\\plantuml\\theme-blue.iuml'
-    theme = 'https://api.media.atlassian.com/file/ef53d10d-fca6-4003-8bb3-946f1fdec527/binary?token=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiODc4OGJjZS1iOWUxLTRmMDctYmU4YS1iN2Y5MWE3YTkxNTQiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOmVmNTNkMTBkLWZjYTYtNDAwMy04YmIzLTk0NmYxZmRlYzUyNyI6WyJyZWFkIl19LCJleHAiOjE1Nzg5NTcwMzEsIm5iZiI6MTU3ODg3NDA1MX0.Fb0r_zFBJAgB0VGPtxfp2P1hYiMSK7-FrwTCl9xb9rE&amp;client=b8788bce-b9e1-4f07-be8a-b7f91a7a9154&amp;name=theme-blue.iuml'
+    theme = 'https://raw.githubusercontent.com/billingtonm/plantuml-themes/master/theme-blue.iuml'
 
     @staticmethod
     def node(id, label, **kwargs):

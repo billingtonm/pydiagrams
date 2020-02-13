@@ -2,8 +2,10 @@
 # for doing flowcharts from python
 from pydiagrams.Flowchart import FlowchartContext
 
-from pydiagrams.helpers.Blockdiag import Helper
-#from pydiagrams.helpers.PUML import Helper
+#from pydiagrams.helpers.Blockdiag import Helper
+from pydiagrams.helpers.PUML import Helper
+# from pydiagrams.helpers.Graphviz import Helper
+
 
 # Start the diagram, define the output file
 with FlowchartContext(Helper) as f:
@@ -13,7 +15,7 @@ with FlowchartContext(Helper) as f:
     refactor        = f.Activity()
     container       = f.Activity()
     serverless      = f.Activity()
-    virtual_machine = f.Activity('Custome label for VM')
+    virtual_machine = f.Activity('Custom label for VM')
 
     # Define the Condition Nodes, with labels
     if_serverless       = f.Condition('Can it be a Serverless function?')
