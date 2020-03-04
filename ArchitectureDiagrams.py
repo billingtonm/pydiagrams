@@ -197,7 +197,11 @@ class Integration(ArchitectureDiagram):
 def get_fillcolor(item):
     """ Gets the fillcolor for an item """
     assert isinstance(item, Item), 'item must be of instance Architecture.Item'
-    return item.attrs['fillcolor']   
+    c =  item.attrs['fillcolor']
+    if isinstance(c, colour.Color):
+        return c
+    else:
+        return colour.Color(c)
 
 def set_fillcolor(item, color):
     """ Gets the fillcolor for an item """
@@ -214,9 +218,8 @@ class System(ArchitectureDiagram):
                 int_count[int.sourceSystem]   = int_count.get(int.sourceSystem, 0) + 1
                 int_count[int.destSystem]     = int_count.get(int.destSystem, 0) + 1
 
-
-            for (n,system) in enumerate(m.Systems):
-                r.write(str(ShapeRenderer('circle', r, system, width=int_count.get(system) / 5 , fillcolor=get_fillcolor(system))))
+            for (n, system) in enumerate(m.Systems):
+                r.write(str(ShapeRenderer('circle', r, system, width=int_count.get(system) * 10 , fillcolor=get_fillcolor(system))))
 
             for ((sourceSystem, destSystem), g) in itertools.groupby(m.Integrations, key=lambda x:(x.sourceSystem, x.destSystem)):
                 label = ',\n'.join([i.description or i.sourceItem.Id for i in g])
@@ -227,15 +230,15 @@ class System(ArchitectureDiagram):
                 line_color.luminance = 0.3
                 font_color.luminance = 0.25
 
-
                 r.write(Helper.edge(fromId = sourceSystem.Id, toId=destSystem.Id, label=label, color=line_color, fontcolor=font_color))   
 
 def assign_system_colors(model, saturation=0.9, lightness=0.8):
     sysCount = len(model.Systems)
     print('Assigning system colors:')
     for (n,system) in enumerate(model.Systems):
-        set_fillcolor( system, colour.Color(hsl=( (n/sysCount)*1, saturation, lightness )))
-        print('\t{}\tSystem {}, \tfillcolor={}'.format(n,system.id, get_fillcolor(system)))
+        if 'fillcolor' not in system.attrs:
+            set_fillcolor( system, colour.Color(hsl=( (n/sysCount)*1, saturation, lightness )))
+            print('\t{}\tSystem {}, \tfillcolor={}'.format(n,system.id, get_fillcolor(system)))
 
 def count_integrations(model):
     for s in model.Systems:
