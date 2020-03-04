@@ -29,7 +29,23 @@ helper.shape = {
         #Architecture
         'Entity'        :   'rectangle',
         'Module'        :   'component',
-        'EntityGroup'   :   'database'
+        'EntityGroup'   :   'database',
+
+        #Flowchart : Need to use 'Component' shapes
+        'FC_Start'      :   'rectangle',
+        'FC_End'        :   'rectangle',
+        'FC_Terminal'   :   'rectangle',
+        'FC_Process'    :   'rectangle',
+        'FC_Decision'   :   'interface',
+        'FC_IO'         :   'rectangle',
+        'FC_PredefinedProcess'  : 'component', 
+        'FC_OnPageConnector'    :  'rectangle',
+        'FC_OffPageConnector'   :  'rectangle',
+        'FC_Database' : 'database',
+        'FC_Document' : 'rectangle',
+        'FC_ManualOperation' : 'rectangle',
+        'FC_ManualInput' : 'rectangle',
+        'FC_Preparation' : 'rectangle'        
     }
 
 helper.comment_format = "' {text}\n"

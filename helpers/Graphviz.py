@@ -9,7 +9,6 @@ helper.shape = {
         'Folder':'folder',
         'Frame':'tab',
         'Node':'box3d',
-        'Package':'package',
         'Rectangle':'rect',    
         'Component':'component',
         'Interface':'circle',
@@ -27,7 +26,23 @@ helper.shape = {
         #Architecture
         'Entity'        :   'ellipse',
         'Module'        :   'component',
-        'SystemIntegration' : 'rect'
+        'SystemIntegration' : 'rect',
+
+        #Flowchart
+        'FC_Start'      :   'ellipse',
+        'FC_End'        :   'rect:rounded',
+        'FC_Terminal'   :   'rect',
+        'FC_Process'    :   'rect',
+        'FC_Decision'   :   'diamond',
+        'FC_IO'         :   'parallelogram',
+        'FC_PredefinedProcess'  : 'record', 
+        'FC_OnPageConnector'    :  'point',
+        'FC_OffPageConnector'   :  'invhouse',
+        'FC_Database' : 'cylinder',
+        'FC_Document' : 'component',
+        'FC_ManualOperation' : 'invtrapezium',
+        'FC_ManualInput' : 'trapezium',
+        'FC_Preparation' : 'hexagon'
     }
 
 helper.comment_format = "# {text}\n"
@@ -61,12 +76,24 @@ class GV_Item:
     def Id(self):
         return self.id
 
+    @property
+    def Note(self):
+        return self.attrs.get('note')
+
     @Id.setter
     def Id(self, value):
         self.id = value
    
     def __str__(self):
-        return f'\n{self.Id} [{self.attrs}];'
+        output = f'\n{self.Id} [{self.attrs}];'
+        if 'note' in self.attrs:
+            output += \
+                f"""\n{self.Id}_NOTE [shape="note"; color="lightgoldenrod4"; fillcolor="lightgoldenrod1" label="{self.Note}"];
+{self.Id}_NOTE -> {self.Id} [constraint=false; style=dashed; color=lightgoldenrod4; arrowhead="empty"]
+{{rank=same; {self.Id} {self.Id}_NOTE }}
+                """
+
+        return output
 
 class GV_Edge:
     # Attributes that are allowed for an Edge (from https://graphviz.gitlab.io/_pages/doc/info/attrs.html)
@@ -99,11 +126,29 @@ class Helper(helper.helper):
     def node(id, label, **kwargs):
         shape = 'shape'
         if shape in kwargs:
+            # print(f'shape={kwargs[shape]}')
             if kwargs[shape] == 'Interface':
                 kwargs['xlabel'] = label
                 label = ""
                 kwargs['width']=0.3
-            kwargs[shape] = Helper.shape(kwargs[shape])
+            
+            mapped_shape = Helper.shape(kwargs[shape])
+
+            # Support style attributes in the shape name. they occur after the ':' character 
+            shape_type = mapped_shape.split(':')             
+
+            kwargs[shape] = shape_type[0]
+
+            if 'fillcolor' in kwargs:
+                kwargs.setdefault('style', 'filled') 
+
+            if len(shape_type) > 1:
+                s='style'
+                r=shape_type[1]
+                if s in kwargs:
+                    kwargs[s] += (',' + r)
+                else:
+                    kwargs[s] = r
 
         return str(GV_Item(id, label=label, **kwargs))
 

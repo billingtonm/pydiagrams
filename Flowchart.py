@@ -39,6 +39,14 @@ class ConditionItem(FlowchartDiagramItem):
 class FlowchartDiagram(diagram.DiagramBase):
     def __init__(self, helper, filename=None, **attrs):
         diagram.DiagramBase.__init__(self, helper, filename, **attrs)
+        for s in ['Start', 'End', 'Terminal', 'Process', 'Decision', 'IO', 'PredefinedProcess', 'OnPageConnector', 'OffPageConnector', 'Database', 'Document', 'ManualOperation', 'ManualInput', 'Preparation']:
+            setattr(self, s, self.__item__('FC_' + s))            
+
+    def __item__(self, shape):
+        """ Returns a function to add a new item """
+        def add(label="", **attrs):
+            return self.add_item(FlowchartDiagramItem(label, shape, **attrs))
+        return add
 
     def Activity(self, label=None, **attrs):
         """ Returns an Activity Item """
