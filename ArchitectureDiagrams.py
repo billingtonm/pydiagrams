@@ -71,7 +71,7 @@ class ShapeRenderer(ItemRenderer):
     def __str__(self):
         node_id =''
         if hasattr(self.item.owner, 'Id'):
-            node_id = self.item.owner.Id
+            node_id = self.item.owner.Id + '_'
 
         attrs = self.attrs.copy()
         attrs.update(self.item.attrs)

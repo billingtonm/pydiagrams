@@ -177,7 +177,7 @@ with ArchitectureContext() as a:
 		sf.Customers >> edw.Customers
 		sf.Promotions >> edw.Promotions
 	
-	with a.IntegrationSet('Middleware'):
+	with a.IntegrationSet('Middleware', isMiddleware=True):
 	# Integrations
 		dps.Payments >> eftrec.Transactions                     % '#33 CUP Online Transactions'
 		edw.Customer_Promo >> es.Customer_Promo                 % '#12 Customer Promo'        & {'url': 'https://davidjones.atlassian.net/wiki/spaces/OR1/pages/100113033/12+Promotion+Customer+EDW+-+iSAMS'}

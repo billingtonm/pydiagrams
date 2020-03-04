@@ -1,0 +1,11 @@
+
+*.pyc
+*.gv
+*.graphml
+*.puml
+*.png
+*.bak
+*.pdf
+*.svg
+*.json
+*.diag
