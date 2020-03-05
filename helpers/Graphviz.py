@@ -254,3 +254,11 @@ subgraph cluster_{id} {{
     def generate_diagram(source_file):
         print(f'Calling graphviz to render the file as {Helper.output_format}')
         Renderer(r'c:\Program Files (x86)\Graphviz2.38\bin\dot').generate(source_file, Helper.output_format)
+
+    @staticmethod
+    def startTogether():
+        return '\n{rank=same;\n'
+
+    @staticmethod
+    def endTogether():
+        return '\n};\n'

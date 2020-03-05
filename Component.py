@@ -170,6 +170,11 @@ class ComponentDiagram(Diagram.DiagramBase):
     def Rectangle(self, label=None, **attrs):
         return self.Group(Rectangle, label, **attrs)
 
+    def Together(self):
+        g=TogetherGroup(parent=self)
+        self._context._groups.current().collection.add_item(g)
+        return g
+
 #-------------------------------------------------------------------------
 class ComponentSubDiagram(ComponentDiagram, ComponentDiagramItem):
     def __init__(self, parent, id, shape, label, **attrs):
@@ -233,6 +238,24 @@ class ComponentSubDiagram(ComponentDiagram, ComponentDiagramItem):
 
         return Diagram.Items(*ret)
 
+class TogetherGroup(ComponentDiagram):
+    def __init__(self, parent):
+        ComponentDiagram.__init__(self, helper=parent.helper, context=parent._context)
+        self.parent = parent
+
+    # Renders this diagram
+    def __str__(self):
+        a = self.helper.startTogether()
+        a += '\n'.join([str(v) for v in list(self.collection.values())])
+        a += self.helper.endTogether()
+        return a
+
+    def __enter__(self):
+        self._context._groups.push(self)
+        return self
+    
+    def __exit__(self, *args):
+        g= self._context._groups.pop()
 
 ##########################################################################
 # Context Classes

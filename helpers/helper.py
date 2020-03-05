@@ -61,4 +61,11 @@ class helper(object):
     @staticmethod
     def generate_diagram(source_file):
         print(f'Diagram generation not implemented.')
-    
+
+    @staticmethod
+    def startTogether():
+        return ''
+
+    @staticmethod
+    def endTogether():
+        return ''

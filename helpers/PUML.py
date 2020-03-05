@@ -153,3 +153,11 @@ class Helper(helper.helper):
     def generate_diagram(source_file):
         print(f'Calling plantuml to render the file as {Helper.output_format}')
         Renderer().generate(source_file, Helper.output_format)
+
+    @staticmethod
+    def startTogether():
+        return '\ntogether {\n'
+
+    @staticmethod
+    def endTogether():
+        return '\n}\n'
