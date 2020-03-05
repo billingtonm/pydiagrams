@@ -242,6 +242,7 @@ class TogetherGroup(ComponentDiagram):
     def __init__(self, parent):
         ComponentDiagram.__init__(self, helper=parent.helper, context=parent._context)
         self.parent = parent
+        self.level = self.parent.level + 1
 
     # Renders this diagram
     def __str__(self):
