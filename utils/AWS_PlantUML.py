@@ -6,7 +6,20 @@ import os
 import os.path
 import configparser
 
-PUML_JAR=r'D:\Software\plantuml\plantuml.jar'
+
+class VarNotSet(Exception):
+    def __init__(self, envvar, msg=''):
+        super().__init__('Environment variable not set: {e}. {m}'.format(e=envvar, m=msg))
+
+def getenv_or_die(envvar, msg=''):
+    """ Gets an environment value. If it's not set then raise an exception """
+    env_val = os.getenv(envvar)
+    if not env_val:
+        raise VarNotSet(env_var, msg)
+    else:
+        return env_val
+
+PUML_JAR=getenv_or_die('PLANTUML_JAR')
 
 PUML_TEMPLATE = '''
 !startsub {macro}
@@ -253,8 +266,9 @@ class PlantUML:
 
 
 
+
 if __name__ == '__main__':
-    AWS_PLANTUML=r'D:\Software\plantuml\AWS-PlantUML-new'
+    AWS_PLANTUML=getenv_or_die('PLANTUML_AWS', 'Need to set environment variable PLANTUML_AWS to the directory where the PlantUML AWS code resides')
 
     aws_icons = AWS_Icons.AWS_Icons()
 
