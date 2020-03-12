@@ -219,7 +219,7 @@ class System(ArchitectureDiagram):
                 int_count[int.destSystem]     = int_count.get(int.destSystem, 0) + 1
 
             for (n, system) in enumerate(m.Systems):
-                r.write(str(ShapeRenderer('circle', r, system, width=int_count.get(system) * 10 , fillcolor=get_fillcolor(system))))
+                r.write(str(ShapeRenderer('circle', r, system, width=int_count.get(system, 1) * 10 , fillcolor=get_fillcolor(system))))
 
             for ((sourceSystem, destSystem), g) in itertools.groupby(m.Integrations, key=lambda x:(x.sourceSystem, x.destSystem)):
                 label = ',\n'.join([i.description or i.sourceItem.Id for i in g])
