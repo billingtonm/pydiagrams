@@ -172,14 +172,14 @@ with ArchitectureContext() as a:
 	
 	with a.IntegrationSet('Informatica'):
 	# Integrations
-		edw.Transactions >> sf.Transactions
-		sf.Customer_Promo >> edw.Customer_Promo
+		edw.Transactions >> sf.Transactions						% 'edw sf Transactions' & {'edge_color':'#0011CC'}
+		sf.Customer_Promo >> edw.Customer_Promo					% 'sf-edw_CustomerPromo'
 		sf.Customers >> edw.Customers
 		sf.Promotions >> edw.Promotions
 	
-	with a.IntegrationSet('Middleware', isMiddleware=True):
+	with a.IntegrationSet('Middleware', isMiddleware=False):
 	# Integrations
-		dps.Payments >> eftrec.Transactions                     % '#33 CUP Online Transactions'
+		dps.Payments >> eftrec.Transactions                     % 'MA #33 CUP Online Transactions'
 		edw.Customer_Promo >> es.Customer_Promo                 % '#12 Customer Promo'        & {'url': 'https://davidjones.atlassian.net/wiki/spaces/OR1/pages/100113033/12+Promotion+Customer+EDW+-+iSAMS'}
 		edw.Customers >> es.Customers                           % '#5 Customers'              & {'url': 'https://davidjones.atlassian.net/wiki/spaces/OR1/pages/100112338/05+Customers+EDW+-+iSAMS'}
 		edw.Transactions >> es.Orders                           % '#34 Save the Sale and GR'  & {'url': 'https://davidjones.atlassian.net/wiki/spaces/OR1/pages/101792031/34+Save+The+Sale+Gift+Registry+Sales+EDW+-+iSAMS'}

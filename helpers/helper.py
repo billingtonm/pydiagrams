@@ -14,6 +14,10 @@ class helper(object):
     # Name of helper
     name = ""
 
+    # Dictionary that tracks the number of edges between 2 nodes
+    # This dictionary has the key that is a tuple of (source,target)
+    edge_counter = {}
+
     @staticmethod
     def remove(d, k):
         """ Remove a key from dict d """
@@ -69,3 +73,12 @@ class helper(object):
     @staticmethod
     def endTogether():
         return ''
+
+    @staticmethod
+    def add_edge(source, target):
+        """ Counts a new edge between a source and target and returns the next sequence """
+        key = (source,target)
+        count = helper.edge_counter.get(key, 0)
+        helper.edge_counter[key] = count + 1
+
+        return count

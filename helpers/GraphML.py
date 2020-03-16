@@ -84,7 +84,7 @@ class Helper(helper.helper):
     @staticmethod    
     def edge(fromId, toId, label=None, **kwargs):
         kwargs['label']=label
-        kwargs['EDGE_ID']= fromId + "-" + toId
+        kwargs['EDGE_ID']= fromId + "-" + toId + str(helper.helper.add_edge(fromId, toId))
         kwargs['source'] = fromId
         kwargs['target'] = toId
 
@@ -126,9 +126,9 @@ class Helper(helper.helper):
         """.format(**kwargs)
 
         if label:
-            e += '<data key="d3">{label}</data>'.format(label=label)
-        if 'url' in kwargs:
-            e += '<data key="d5"><![CDATA[{url}]]></data>'.format(**kwargs)        
+            e += '<data key="d3" xml:space="preserve"><![CDATA[{label}]]></data>'.format(label=label)
+        if 'url' in kwargs and kwargs.get('url'):
+            e += '<data key="d5" xml:space="preserve"><![CDATA[{url}]]></data>'.format(**kwargs)        
 
         e += '</edge>'
 

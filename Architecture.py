@@ -76,6 +76,7 @@ class SimpleItem(Item):
                         destSystem = item.owner, destItem = destItem, 
                         description=description)
                 newOwner.add_integration(integration)
+                #print(f'Link created Integration: {integration=}')
                 return integration
 
             else:
@@ -86,6 +87,7 @@ class SimpleItem(Item):
                 link(item)
             return None
         elif isinstance(itemSet, IntegrationFragment):
+            #print(f'Link: {self=}, {itemSet.description=}')
             return link(itemSet.simpleItem, itemSet.description)
         else:
             return link(itemSet)
@@ -95,6 +97,7 @@ class SimpleItem(Item):
     # eg: SimpleItem1 >> SimpleItem2 % 'Description'
     # means: create an integration from SimpleItem1 to SimpleItem2 with description 'Description'
     def __mod__(self, description):
+        #print (f'Description being added to: {self=}, {description=}')
         return IntegrationFragment(self, description)
 
 class ModuleItem(SimpleItem):
@@ -190,7 +193,8 @@ class IntegrationItem(Item):
                  destSystem, destItem,
                  description = None,
                  url = None,
-                 direction = None):
+                 direction = None,
+                 edge_color = '#000000'):
         super().__init__(label = None)                 
         self.sourceSystem = sourceSystem
         self.sourceItem = sourceItem
@@ -200,6 +204,7 @@ class IntegrationItem(Item):
         self.description = description
         self.direction = direction
         self.url = url
+        self.edge_color = edge_color
 
     # & operator
     # This operator enables an integration to have properties appended to it
@@ -210,7 +215,7 @@ class IntegrationItem(Item):
         return self
 
     def __repr__(self):
-        return 'owner={owner} {sourceSystem.Id}.{sourceItem.Id} >> {destSystem.Id}.{destItem.Id}'.format(**self.__dict__)
+        return 'owner={owner} {sourceSystem.Id}.{sourceItem.Id} >> {destSystem.Id}.{destItem.Id} % "{description}"'.format(**self.__dict__)
 
     def goVia(self, system):
         """ Makes an integration go via a certain system.

@@ -109,12 +109,14 @@ class IntegrationSystemRender(ItemRenderer):
     """ Integration between Systems """
     def __str__(self):
         e=self.item
+        
         return Helper.edge(
             fromId = e.sourceSystem.Id
             ,toId = e.destSystem.Id
             ,label=e.description
             ,url=e.url
             ,direction=e.direction
+            ,edge_color=e.edge_color
         )
 
 
